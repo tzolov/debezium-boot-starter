@@ -36,52 +36,54 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties(CdcCommonProperties.class)
 public class CdcCommonConfiguration {
 
-    @Bean
+	@Bean
 	public Properties cdcConfiguration(CdcCommonProperties properties) {
-        Properties outProps = new java.util.Properties();
-        outProps.putAll(properties.getConfig());
+		Properties outProps = new java.util.Properties();
+		outProps.putAll(properties.getConfig());
 		return outProps;
 	}
 
-    @Bean
-    public DebeziumEngine<?> debeziumEngineJson(Consumer<ChangeEvent<String, String>> changeEventConsumer, java.util.Properties cdcConfiguration) {
+	@Bean
+	public DebeziumEngine<?> debeziumEngineJson(Consumer<ChangeEvent<String, String>> changeEventConsumer,
+			java.util.Properties cdcConfiguration) {
 
-        DebeziumEngine<ChangeEvent<String, String>> debeziumEngine = DebeziumEngine
-                .create(io.debezium.engine.format.Json.class)
-                .using(cdcConfiguration)
-                .notifying(changeEventConsumer)
-                .build();
+		DebeziumEngine<ChangeEvent<String, String>> debeziumEngine = DebeziumEngine
+				.create(io.debezium.engine.format.Json.class)
+				.using(cdcConfiguration)
+				.notifying(changeEventConsumer)
+				.build();
 
-        return debeziumEngine;
-    }
+		return debeziumEngine;
+	}
 
-    // @Bean - TODO
-    public DebeziumEngine<?> debeziumEngineAvro(Consumer<ChangeEvent<byte[], byte[]>> changeEventConsumer, java.util.Properties cdcConfiguration) {
+	// @Bean - TODO
+	public DebeziumEngine<?> debeziumEngineAvro(Consumer<ChangeEvent<byte[], byte[]>> changeEventConsumer,
+			java.util.Properties cdcConfiguration) {
 
-        DebeziumEngine<ChangeEvent<byte[], byte[]>> debeziumEngine = DebeziumEngine
-                .create(io.debezium.engine.format.Avro.class)
-                .using(cdcConfiguration)
-                .notifying(changeEventConsumer)
-                .build();
+		DebeziumEngine<ChangeEvent<byte[], byte[]>> debeziumEngine = DebeziumEngine
+				.create(io.debezium.engine.format.Avro.class)
+				.using(cdcConfiguration)
+				.notifying(changeEventConsumer)
+				.build();
 
-        return debeziumEngine;
-    }
+		return debeziumEngine;
+	}
 
-    @Bean
+	@Bean
 	public EmbeddedEngineExecutorService embeddedEngine(DebeziumEngine<?> debeziumEngine) {
 
-        return new EmbeddedEngineExecutorService(debeziumEngine) {
-            @PostConstruct
-            @Override
-            public void start() {
-                super.start();
-            }
+		return new EmbeddedEngineExecutorService(debeziumEngine) {
+			@PostConstruct
+			@Override
+			public void start() {
+				super.start();
+			}
 
-            @PreDestroy
-            @Override
-            public void close() {
-                super.close();
-            }
-        };
+			@PreDestroy
+			@Override
+			public void close() {
+				super.close();
+			}
+		};
 	}
 }

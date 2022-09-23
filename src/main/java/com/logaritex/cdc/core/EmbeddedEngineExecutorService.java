@@ -31,7 +31,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class EmbeddedEngineExecutorService implements Closeable {
 
-    private static final Log logger = LogFactory.getLog(EmbeddedEngineExecutorService.class);
+	private static final Log logger = LogFactory.getLog(EmbeddedEngineExecutorService.class);
 
 	private final DebeziumEngine<?> engine;
 	private final ExecutorService executor;
@@ -49,13 +49,13 @@ public class EmbeddedEngineExecutorService implements Closeable {
 	@Override
 	public void close() {
 		logger.info("Stop Embedded Engine");
-        try {
-            this.engine.close();
-        }
+		try {
+			this.engine.close();
+		}
 		catch (IOException e) {
 			logger.warn("Failed to close the Debezium Engine:", e);
-        }		
+		}
 		this.executor.shutdown();
 	}
-    
+
 }

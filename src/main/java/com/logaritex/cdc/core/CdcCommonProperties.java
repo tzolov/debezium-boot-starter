@@ -31,9 +31,9 @@ import org.springframework.validation.annotation.Validated;
 public class CdcCommonProperties {
 
 	/**
-	 * Spring pass-trough wrapper for debezium configuration properties.
-	 * All properties with a 'cdc.config.' prefix are native Debezium properties.
-	 * The prefix is removed, converting them into Debezium io.debezium.config.Configuration.
+	 * Spring pass-trough wrapper for debezium configuration properties. All properties with a 'cdc.config.' prefix are
+	 * native Debezium properties. The prefix is removed, converting them into Debezium
+	 * io.debezium.config.Configuration.
 	 */
 	private Map<String, String> config = defaultConfig();
 
@@ -44,8 +44,7 @@ public class CdcCommonProperties {
 	private Map<String, String> defaultConfig() {
 		Map<String, String> defaultConfig = new HashMap<>();
 		defaultConfig.put("database.history", "io.debezium.relational.history.MemoryDatabaseHistory");
-		//defaultConfig.put("offset.flush.interval.ms", "60000");
+		// defaultConfig.put("offset.flush.interval.ms", "60000");
 		return defaultConfig;
 	}
 }
-

@@ -46,18 +46,18 @@ import static org.awaitility.Awaitility.await;
 @Testcontainers
 public class CdcBootStarterIntegrationTest {
 
-    private static final Log logger = LogFactory.getLog(EmbeddedEngineExecutorService.class);
+	private static final Log logger = LogFactory.getLog(EmbeddedEngineExecutorService.class);
 
 	private static final String DATABASE_NAME = "inventory";
 
 	private static String MAPPED_PORT;
 
-    @TempDir 
-    static File anotherTempDir;
+	@TempDir
+	static File anotherTempDir;
 
 	@Container
-	static GenericContainer debeziumMySQL =
-			new GenericContainer<>(DockerImageName.parse("debezium/example-mysql:1.7.1.Final"))
+	static GenericContainer debeziumMySQL = new GenericContainer<>(
+			DockerImageName.parse("debezium/example-mysql:1.7.1.Final"))
 					.withEnv("MYSQL_ROOT_PASSWORD", "debezium")
 					.withEnv("MYSQL_USER", "mysqluser")
 					.withEnv("MYSQL_PASSWORD", "mysqlpw")
@@ -95,11 +95,11 @@ public class CdcBootStarterIntegrationTest {
 					"cdc.config.database.server.id=85744",
 					"cdc.config.database.server.name=my-app-connector",
 					"cdc.config.database.history=io.debezium.relational.history.MemoryDatabaseHistory");
-                    
+
 	@Test
 	public void consumerTest() {
 
-        logger.info("Temp dir: " + anotherTempDir.getAbsolutePath());
+		logger.info("Temp dir: " + anotherTempDir.getAbsolutePath());
 
 		contextRunner
 				.withPropertyValues(

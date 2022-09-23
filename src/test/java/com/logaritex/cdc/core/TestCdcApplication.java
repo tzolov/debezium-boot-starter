@@ -43,7 +43,6 @@ public class TestCdcApplication {
 
 	public static class TestSourceRecordConsumer implements Consumer<ChangeEvent<String, String>> {
 
-
 		public Map<Object, Object> keyValue = new HashMap<>();
 
 		public List<ChangeEvent<String, String>> recordList = new CopyOnWriteArrayList<>();
@@ -55,8 +54,8 @@ public class TestCdcApplication {
 		public void accept(ChangeEvent<String, String> changeEvent) {
 			if (changeEvent != null) { // ignore null records
 				recordList.add(changeEvent);
-                keyValue.put(changeEvent.key(), changeEvent.value());
-                System.out.println("SIZE=" + recordList.size());
+				keyValue.put(changeEvent.key(), changeEvent.value());
+				System.out.println("SIZE=" + recordList.size());
 				System.out.println("[CDC Event]: " + changeEvent.toString());
 			}
 		}
