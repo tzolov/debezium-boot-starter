@@ -67,7 +67,7 @@ public class CdcBootStarterIntegrationTest {
 	private static JdbcTemplate jdbcTemplate;
 
 	@BeforeAll
-	static void setup() {        
+	static void setup() {
 		MAPPED_PORT = String.valueOf(debeziumMySQL.getMappedPort(3306));
 		jdbcTemplate = jdbcTemplate(
 				"com.mysql.cj.jdbc.Driver",
@@ -94,27 +94,22 @@ public class CdcBootStarterIntegrationTest {
 					"cdc.config.database.port=" + MAPPED_PORT,
 					"cdc.config.database.server.id=85744",
 					"cdc.config.database.server.name=my-app-connector",
-					"cdc.config.database.history=io.debezium.relational.history.MemoryDatabaseHistory",
-					
-					// Flattering:
-					// https://debezium.io/documentation/reference/stable/transformations/event-flattening.html
-					"cdc.config.transforms=unwrap",
-					"cdc.config.transforms.unwrap.type=io.debezium.transforms.ExtractNewRecordState",
-					"cdc.config.transforms.unwrap.drop.tombstones=false",
-					"cdc.config.transforms.unwrap.delete.handling.mode=rewrite",
-					"cdc.config.transforms.unwrap.add.fields=name,db");
+					"cdc.config.database.history=io.debezium.relational.history.MemoryDatabaseHistory");
                     
 	@Test
 	public void consumerTest() {
-
-        //System.out.println(anotherTempDir.getAbsolutePath());
 
         logger.info("Temp dir: " + anotherTempDir.getAbsolutePath());
 
 		contextRunner
 				.withPropertyValues(
-						"cdc.flattening.deleteHandlingMode=drop",
-						"cdc.flattening.dropTombstones=true")
+						// Flattering:
+						// https://debezium.io/documentation/reference/stable/transformations/event-flattening.html
+						"cdc.config.transforms=unwrap",
+						"cdc.config.transforms.unwrap.type=io.debezium.transforms.ExtractNewRecordState",
+						"cdc.config.transforms.unwrap.drop.tombstones=false",
+						"cdc.config.transforms.unwrap.delete.handling.mode=rewrite",
+						"cdc.config.transforms.unwrap.add.fields=name,db")
 				.run(context -> {
 					TestCdcApplication.TestSourceRecordConsumer testConsumer = context
 							.getBean(TestCdcApplication.TestSourceRecordConsumer.class);
