@@ -52,12 +52,12 @@ public class TestCdcApplication {
 		}
 
 		@Override
-		public void accept(ChangeEvent<String, String> sourceRecord) {
-			if (sourceRecord != null) { // ignore null records
-				recordList.add(sourceRecord);
-                keyValue.put(sourceRecord.key(), sourceRecord.value());
+		public void accept(ChangeEvent<String, String> changeEvent) {
+			if (changeEvent != null) { // ignore null records
+				recordList.add(changeEvent);
+                keyValue.put(changeEvent.key(), changeEvent.value());
                 System.out.println("SIZE=" + recordList.size());
-				System.out.println("[CDC Event]: " + sourceRecord.toString());
+				System.out.println("[CDC Event]: " + changeEvent.toString());
 			}
 		}
 	}
