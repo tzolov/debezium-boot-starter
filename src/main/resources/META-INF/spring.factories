@@ -1,1 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.logaritex.cdc.core.CdcCommonConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.logaritex.cdc.core.CdcConfiguration

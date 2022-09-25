@@ -28,7 +28,7 @@ import org.springframework.validation.annotation.Validated;
  */
 @ConfigurationProperties("cdc")
 @Validated
-public class CdcCommonProperties {
+public class CdcProperties {
 
 	/**
 	 * Spring pass-trough wrapper for debezium configuration properties. All properties with a 'cdc.config.' prefix are

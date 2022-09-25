@@ -33,11 +33,11 @@ import org.springframework.context.annotation.Configuration;
  * @author Christian Tzolov
  */
 @Configuration
-@EnableConfigurationProperties(CdcCommonProperties.class)
-public class CdcCommonConfiguration {
+@EnableConfigurationProperties(CdcProperties.class)
+public class CdcConfiguration {
 
 	@Bean
-	public Properties cdcConfiguration(CdcCommonProperties properties) {
+	public Properties cdcConfiguration(CdcProperties properties) {
 		Properties outProps = new java.util.Properties();
 		outProps.putAll(properties.getConfig());
 		return outProps;
