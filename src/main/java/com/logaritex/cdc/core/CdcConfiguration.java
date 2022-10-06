@@ -39,7 +39,7 @@ public class CdcConfiguration {
 	@Bean
 	public Properties cdcConfiguration(CdcProperties properties) {
 		Properties outProps = new java.util.Properties();
-		outProps.putAll(properties.getConfig());
+		outProps.putAll(properties.getDebezium());
 		return outProps;
 	}
 

@@ -57,7 +57,7 @@ public class CdcBootStarterIntegrationTest {
 
 	@Container
 	static GenericContainer debeziumMySQL = new GenericContainer<>(
-			DockerImageName.parse("debezium/example-mysql:1.7.1.Final"))
+			DockerImageName.parse("debezium/example-mysql:1.9.6.Final"))
 					.withEnv("MYSQL_ROOT_PASSWORD", "debezium")
 					.withEnv("MYSQL_USER", "mysqluser")
 					.withEnv("MYSQL_PASSWORD", "mysqlpw")
@@ -81,20 +81,20 @@ public class CdcBootStarterIntegrationTest {
 			.withPropertyValues(
 					"spring.datasource.type=com.zaxxer.hikari.HikariDataSource",
 
-					"cdc.config.offset.storage=org.apache.kafka.connect.storage.FileOffsetBackingStore",
-					"cdc.config.offset.storage.file.filename=" + anotherTempDir.getAbsolutePath() + "offsets.dat",
-					"cdc.config.offset.flush.interval.ms=60000",
+					"cdc.debezium.offset.storage=org.apache.kafka.connect.storage.FileOffsetBackingStore",
+					"cdc.debezium.offset.storage.file.filename=" + anotherTempDir.getAbsolutePath() + "offsets.dat",
+					"cdc.debezium.offset.flush.interval.ms=60000",
 
-					"cdc.config.name=my-sql-connector",
-					"cdc.config.connector.class=io.debezium.connector.mysql.MySqlConnector",
+					"cdc.debezium.name=my-sql-connector",
+					"cdc.debezium.connector.class=io.debezium.connector.mysql.MySqlConnector",
 
-					"cdc.config.database.user=debezium",
-					"cdc.config.database.password=dbz",
-					"cdc.config.database.hostname=localhost",
-					"cdc.config.database.port=" + MAPPED_PORT,
-					"cdc.config.database.server.id=85744",
-					"cdc.config.database.server.name=my-app-connector",
-					"cdc.config.database.history=io.debezium.relational.history.MemoryDatabaseHistory");
+					"cdc.debezium.database.user=debezium",
+					"cdc.debezium.database.password=dbz",
+					"cdc.debezium.database.hostname=localhost",
+					"cdc.debezium.database.port=" + MAPPED_PORT,
+					"cdc.debezium.database.server.id=85744",
+					"cdc.debezium.database.server.name=my-app-connector",
+					"cdc.debezium.database.history=io.debezium.relational.history.MemoryDatabaseHistory");
 
 	@Test
 	public void consumerTest() {
@@ -105,11 +105,11 @@ public class CdcBootStarterIntegrationTest {
 				.withPropertyValues(
 						// Flattering:
 						// https://debezium.io/documentation/reference/stable/transformations/event-flattening.html
-						"cdc.config.transforms=unwrap",
-						"cdc.config.transforms.unwrap.type=io.debezium.transforms.ExtractNewRecordState",
-						"cdc.config.transforms.unwrap.drop.tombstones=false",
-						"cdc.config.transforms.unwrap.delete.handling.mode=rewrite",
-						"cdc.config.transforms.unwrap.add.fields=name,db")
+						"cdc.debezium.transforms=unwrap",
+						"cdc.debezium.transforms.unwrap.type=io.debezium.transforms.ExtractNewRecordState",
+						"cdc.debezium.transforms.unwrap.drop.tombstones=false",
+						"cdc.debezium.transforms.unwrap.delete.handling.mode=rewrite",
+						"cdc.debezium.transforms.unwrap.add.fields=name,db")
 				.run(context -> {
 					TestCdcApplication.TestSourceRecordConsumer testConsumer = context
 							.getBean(TestCdcApplication.TestSourceRecordConsumer.class);

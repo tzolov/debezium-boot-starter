@@ -31,14 +31,14 @@ import org.springframework.validation.annotation.Validated;
 public class CdcProperties {
 
 	/**
-	 * Spring pass-trough wrapper for debezium configuration properties. All properties with a 'cdc.config.' prefix are
+	 * Spring pass-trough wrapper for debezium configuration properties. All properties with a 'cdc.debezium.' prefix are
 	 * native Debezium properties. The prefix is removed, converting them into Debezium
 	 * io.debezium.config.Configuration.
 	 */
-	private Map<String, String> config = defaultConfig();
+	private Map<String, String> debezium = defaultConfig();
 
-	public Map<String, String> getConfig() {
-		return config;
+	public Map<String, String> getDebezium() {
+		return debezium;
 	}
 
 	private Map<String, String> defaultConfig() {
